@@ -3,11 +3,11 @@
 module RemixIcon
   module ApplicationHelper
     def remix_icon(name, options: {}, path_options: {})
-      raw RemixIcon::Icon.render(
+      RemixIcon::Icon.render(
         name: name,
         options: options,
         path_options: path_options
-      )
+      ).to_s.html_safe
     rescue RemixIcon::IconNotFoundError
       return if Rails.env.production?
 
