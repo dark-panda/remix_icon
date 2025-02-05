@@ -2,6 +2,12 @@
 
 module RemixIcon
   module ApplicationHelper
+    class HelperSingleton
+      include Singleton
+      include ActionView::Helpers::JavaScriptHelper
+      include ActionView::Helpers::TagHelper
+    end
+
     def remix_icon(name, options: {}, path_options: {})
       RemixIcon::Icon.render(
         name: name,
@@ -11,7 +17,7 @@ module RemixIcon
     rescue RemixIcon::IconNotFoundError
       return if Rails.env.production?
 
-      javascript_tag(%{console.warn("RemixIcon: Failed to find RemixIcon: #{name}")})
+      HelperSingleton.instance.javascript_tag(%{console.warn("RemixIcon: Failed to find RemixIcon: #{name}")})
     end
   end
 end
